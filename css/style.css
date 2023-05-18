@@ -1,0 +1,178 @@
+/*=======================================
+レイアウト
+=======================================*/
+html {
+  height: 100vh;
+}
+
+header {
+  height: 5vh;
+  padding-top: 5vh;
+}
+
+body {
+  background-color: rgb(240, 233, 208);
+}
+
+h1 {
+  font-size: 40px;
+  letter-spacing: 1.5px;
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+}
+
+footer {
+  font-size: 15px;
+  letter-spacing: 1px;
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+}
+
+a {
+  font-size: 16px;
+  color: #fff;
+}
+
+p {
+  height: 5%;
+  font-size: 16px;
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+/*=======================================
+追加設定
+=======================================*/
+
+/*=================
+  検索エリア
+=================*/
+.kensakuarea {
+  padding: 5vh 0 5vh 0;
+  margin: auto;
+  width: 960px;
+}
+
+/*=================
+  検索窓
+=================*/
+
+#kensakumado {
+  width: 30%;
+  font-size: 15px;
+  margin-right: 10px;
+  padding: 10px;
+  letter-spacing: 1px;
+  border: none;
+  border-radius: 8px;
+}
+
+/*=================
+  メインエリア
+=================*/
+
+.main {
+  height: 50vh;
+  padding-bottom: 1vh;
+}
+
+#kaisetsu {
+  width: 45%;
+  height: 100%;
+  margin-right: 15px;
+  font-size: 15px;
+  letter-spacing: 1.5px;
+  text-align: center;
+  display: table;
+  background-color: white;
+  padding: 10px;
+}
+
+.gcse-search {
+  height: 100px;
+}
+
+.inner {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.tab {
+  width: 45%;
+  height: 100%;
+}
+.tab-nav {
+  display: flex;
+}
+.tab-nav-item {
+  margin-right: 3px;
+  background-color: #ccc;
+  color: #000;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px 5px 0 0;
+}
+
+.tab-nav-item.is-active {
+  background: #000;
+  color: #fff;
+}
+
+.tab-contents {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 20px;
+  height: 85%;
+}
+
+.tab-contents-item {
+  display: none;
+  height: 100%;
+}
+
+/*=================
+  メモ/記入エリア
+=================*/
+
+#memoran {
+  height: 100%;
+  width: 45%;
+  margin-left: 15px;
+}
+
+.memotitle {
+  width: 96%;
+  height: 5%;
+  font-size: 15px;
+  letter-spacing: 1px;
+  border: 0.1rem solid #333;
+  padding: 10px;
+}
+
+.memoranv {
+  width: 95%;
+  height: 70%;
+  font-size: 15px;
+  letter-spacing: 1px;
+  border: 0.1rem solid #333;
+  padding: 10px;
+}
+
+.new {
+  border: 0.1rem outset black;
+}
+
+/*=================
+  保存/削除エリア
+=================*/
+.btnarea {
+  padding: 5vh 0 5vh 0;
+  margin: auto;
+  width: 960px;
+}

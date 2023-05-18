@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSN</title>
+    <link rel="stylesheet" href="css/reset.css" />
+
+    <!--googlefontの読み込み-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet" />
+
+    <!--自作CSSの読み込み-->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/btn.css" />
+  </head>
+  <header><h1>Coding Study Notebook</h1></header>
+
+  <body>
+    <!--=======================
+              検索窓
+    ========================-->
+    <!--検索窓-->
+    <div class="container kensakuarea">
+      <input type="text"value="メモを検索" id="kensakumado" />
+      <!--検索ボタン-->
+      <a id="sarch" class="sarchbtn bgcentery" href="#"
+        ><span><img src="img/sarch.svg" alt="" />検索</span></a
+      >
+    </div>
+
+    <!--=======================
+            メイン画面
+    ========================-->
+    <div class="container main">
+      <!--=======================
+              検索結果
+      ========================-->
+      <div id="kaisetsu"><p class="inner">
+        <script async src="https://cse.google.com/cse.js?cx=729e73acd7c2a42e1">
+        </script>
+        <div class="gcse-search"></div>
+    </p></div>
+
+      <div class="tab" id="js-tab">
+        <div class="tab-nav">
+          <a href="" class="tab-nav-item is-active" data-nav="0">Tab-0</a>
+        </div>
+
+        <div class="tab-contents">
+          <div class="tab-contents-item" data-content="0">
+            <p>Title</p>
+            <textarea name="title" id="memotitle" class="memotitle" cols="20" rows="1"></textarea>
+            <p>Memo</p>
+            <textarea name="memo" id="memotext" class="memoranv" cols="20" rows="1"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!--=======================
+              メモ欄
+      ========================-->
+      <!-- <div id="memoran">
+        <p>Title</p>
+        <textarea name="title" id="memotitle" class="memotitle" cols="20" rows="1"></textarea>
+        <p>Memo</p>
+        <textarea name="memo" id="memotext" class="memoranv" cols="20" rows="1"></textarea>
+      </div> -->
+    </div>
+    <!--=======================
+      保存/削除ボタン
+    ========================-->
+
+    <div class="container btnarea">
+      <!--新規作成ボタン-->
+      <a id="add" class="addbtn bgcentery" href="#"><span>+add</span></a>
+      <!--保存ボタン-->
+      <a id="save" class="savebtn bgcentery" href="#"><span>SAVE</span></a>
+      <!--メモ欄内削除ボタン-->
+      <a id="clear" class="clearbtn bgcentery" href="#"><span>CLEAR</span></a>
+      <!--保存データ削除ボタン-->
+      <a id="delete" class="deletebtn bgcentery" href="#"><span>DELETE</span></a>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script>
+      //================================================================
+      //タブの処理
+      //================================================================
+
+      (() => {
+        const doc = document;
+        const tab = doc.getElementById("js-tab");
+        const nav = tab.querySelectorAll("[data-nav]");
+        const content = tab.querySelectorAll("[data-content]");
+
+        const init = () => {
+          content[0].style.display = "block";
+        };
+        init();
+
+        //クリックしたら起こるイベント
+        const handleClick = (e) => {
+          e.preventDefault();
+
+          //クリックされたnavとそのdataを取得
+          const $this = e.target;
+          const targetVal = $this.dataset.nav;
+
+          // 不要なnav,contentをすべて一旦リセットする
+          let index = 0;
+          while (index < nav.length) {
+            content[index].style.display = "none";
+            nav[index].classList.remove("is-active");
+            index++;
+          }
+          //対象のコンテンツをアクティブ化する
+          tab.querySelectorAll('[data-content="' + targetVal + '"]')[0].style.display = "block";
+          nav[targetVal].classList.add("is-active");
+          console.log("nav[targetVal].classList", nav[targetVal].classList);
+        };
+
+        //全nav要素に対して関数を適応・発火
+        let index = 0;
+        while (index < nav.length) {
+          nav[index].addEventListener("click", (e) => handleClick(e));
+          index++;
+        }
+      })();
+
+      //================================================================
+      //#addを押すとメモ欄が増える
+      //================================================================
+
+      //新規作成した際に、既存のnewクラスを削除し、
+      //新規のものへ、newのクラスを与える。
+      let c = 0;
+      $("#add").on("click", function () {
+        $("#memoran>textarea").removeClass("new");
+        c++;
+        const html = `
+        <p>Title</p>
+        <textarea name="title" id="add_${c}" class="memotitle new" cols="20" rows="1">${c}</textarea>
+          <p>Memo</p><textarea class="memoranv new" cols="20" rows="1"></textarea>`;
+        $("#memoran").append(html);
+      });
+
+      //================================================================
+      //#Save をクリックした際に #text に入力したデータをlocalStorageへ保存する
+      //================================================================
+
+      //保存の際にタイトルエリアの情報を取得してidに登録する。
+      $("#save").on("click", function () {
+        const memoTitle = $("#memotitle").val(); //変数名memoTitle...#kensakumadoの値を取得（.val()取得）
+        const text = $("#memotext").val(); //変数名text...#memotextの値を取得（.val()取得）
+        const date = {
+          title: memoTitle,
+          text: text,
+        };
+        //idの追加処理
+        //========================
+
+        // if ($("textarea").attr("id")) {
+        //   document.getElementById("memotitle").id = memoTitle;
+        // } else {
+        //   $("textarea").removeAttr("id");
+        //   $("textarea").attr("id", memoTitle);
+        //   // document.getElementById(memoTitle).id = memoTitle;
+        // }
+
+        //=======================
+
+        console.log(date);
+        const jsonDate = JSON.stringify(date);
+        localStorage.setItem("memo", jsonDate);
+      });
+
+      //================================================================
+      //localStorage記述と指示
+
+      //データ登録	localStorage.setItem(key, value);
+      //データ取得	localStorage.getItem(key);
+      //データ更新	localStorage.setItem(key, value);
+      //データ削除	localStorage.removeItem(key);
+      //データ全削除	localStorage.clear();
+      //データの長さ	localStorage.length;
+      //データの順番	localStorage.key(インデックス);
+
+      //================================================================
+
+      //====================================================
+      //#clear をクリックした際にメモ欄内のデータを削除する
+      //====================================================
+
+      $("#clear").on("click", function () {
+        $("#memoran>textarea").val(""); // #memotitleの値を""（文字なし）で上書き
+        // $("#memotext").val(""); // #memotextの値を""（文字なし）で上書き
+      });
+
+      //====================================================
+      //#delete をクリックした際にlocalStorage内のデータを削除する
+      //====================================================
+
+      $("#delete").on("click", function () {
+        if (!confirm("メモを削除しますか？\n削除したメモは復元できません。")) {
+          /* キャンセルの時の処理 */
+          return false;
+        } else {
+          localStorage.removeItem("memo"); //localStorage内の保存データを削除
+          $("#memotitle").val(""); // #memotitleの値を""（文字なし）で上書き
+          $("#memotext").val(""); // #memotextの値を""（文字なし）で上書き
+        }
+      });
+
+      //================================================================
+      //#sarch をクリックした際にlocalStorage内からデータを取得する
+      //================================================================
+      $("#sarch").on("click", function () {
+        if (localStorage.getItem("memo")) {
+          const jsonDate = localStorage.getItem("memo");
+          const date = JSON.parse(jsonDate);
+          console.log(date);
+          $("#memotitle").val(date.title); // #memotitleの値に.valで呼び出した値を入力 (date.title)
+          $("#memotext").val(date.text); // #memotextの値に.valで呼び出した値を入力 (date.text)
+        }
+      });
+    </script>
+  </body>
+  <footer><p>©kateni</p></footer>
+</html>
