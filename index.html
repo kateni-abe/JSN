@@ -152,6 +152,7 @@
       //#Save をクリックした際に #text に入力したデータをlocalStorageへ保存する
       //================================================================
 
+      
       //保存の際にタイトルエリアの情報を取得してidに登録する。
       $("#save").on("click", function () {
         const memoTitle = $("#memotitle").val(); //変数名memoTitle...#kensakumadoの値を取得（.val()取得）
@@ -163,13 +164,13 @@
         //idの追加処理
         //========================
 
-        // if ($("textarea").attr("id")) {
-        //   document.getElementById("memotitle").id = memoTitle;
-        // } else {
-        //   $("textarea").removeAttr("id");
-        //   $("textarea").attr("id", memoTitle);
-        //   // document.getElementById(memoTitle).id = memoTitle;
-        // }
+        if ($("textarea").attr("id")) {
+          document.getElementById("memotitle").id = memoTitle;
+        } else {
+          $("textarea").removeAttr("id");
+          $("textarea").attr("id", memoTitle);
+          // document.getElementById(memoTitle).id = memoTitle;
+        }
 
         //=======================
 
